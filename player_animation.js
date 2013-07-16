@@ -16,6 +16,14 @@ var GigiAnimation = function(gamejs) {
 	this.animation.start('stand');
 }
 
+var BackgroundAnimation = function(gamejs) {
+	this.sheetSpec = {map: [{x:0, y:0, w:3200, h:600}]};
+
+	var spriteSheet = new SpriteSheet(gamejs, 'assets/bg.jpg', this.sheetSpec);
+	this.animation = new Animation(spriteSheet, {'scroll': [0]},  6);
+	this.animation.start('scroll');
+}
+
 var SamuraiAnimation = function(gamejs) {
 	this.sheetSpec = {map: [
 		//stand
