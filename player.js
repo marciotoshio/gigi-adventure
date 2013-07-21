@@ -1,7 +1,8 @@
-var Player = function (gamejs, image) {
+var Player = function (gamejs) {
 	var state = 'stand';
 	var position = new Vector2(0, 0);
 	var velocity = new Vector2(0, 0);
+	var rect = new gamejs.Rect(0, 0);
 	var gravity = new Vector2(0, 0.002);
 	var jump_limit = 155;
 	var start_jump_position = 0;
@@ -67,22 +68,21 @@ var Player = function (gamejs, image) {
 	}
 
 	this.on_platform = function(platform_Y) {
-		//gravity.y = 0;
 		position.y = platform_Y - current_frame_height();
 	}
 
-	this.bottom = function() {
-		return position.y + current_frame_height();
-	}
-
-	this.middle = function() {
-		return position.x + (current_frame_width() / 2);
+	this.rect = function() {
+		return rect;
 	}
 
 	this.update = function(dt) {
 		player_animation.animation.update(dt);
 		position.add(velocity.multiply_scalar(dt));
 		velocity.add(gravity.multiply_scalar(dt));
+		rect.x = position.x;
+		rect.y = position.y;
+		rect.width = current_frame_width();
+		rect.height = current_frame_height();
 		keep_limits();	
 	}
 

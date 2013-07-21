@@ -38,6 +38,14 @@ var Platforms = function(gamejs) {
 		new Platform(gamejs, 2900, 450 , 150, 25)];
 }
 
+var CoinAnimation = function(gamejs) {
+	this.sheetSpec = {width: 30, height: 30};
+
+	var spriteSheet = new SpriteSheet(gamejs, 'assets/coin.png', this.sheetSpec);
+	this.animation = new Animation(spriteSheet, {'spin': [0,15]},  6);
+	this.animation.start('spin');
+}
+
 var SamuraiAnimation = function(gamejs) {
 	this.sheetSpec = {map: [
 		//stand
