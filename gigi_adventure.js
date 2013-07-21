@@ -54,12 +54,14 @@ gamejs.ready(function() {
 
 
 	function check_platform_collision(subject) {
+		var platformY = 0;
 		for(var i = 0; i < platforms.length; i++) {
 			if(platforms[i].collidePoint(subject.rect().center[0], subject.rect().bottom)) {
-				subject.on_platform(platforms[i].top());
+				platformY = platforms[i].top();
 				break;
 			}
 		}
+		subject.on_platform(platformY);
 	}
 
 	function check_coin_collision(subject) {

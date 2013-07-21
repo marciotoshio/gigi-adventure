@@ -16,9 +16,9 @@ var Player = function (gamejs) {
 					break;
 				case gamejs.event.K_UP: jump();
 					break;
-				case gamejs.event.K_LEFT: left();
+				case gamejs.event.K_LEFT: walk_left();
 					break;
-				case gamejs.event.K_RIGHT: right();
+				case gamejs.event.K_RIGHT: walk_right();
 					break;
 				case gamejs.event.K_SPACE: attack();
 					break;
@@ -28,18 +28,26 @@ var Player = function (gamejs) {
 		}
 
 		if(event.type == gamejs.event.KEY_UP) {
-			if(state == 'walking_right' || state == 'walking_left') stand();
+			if(is_walking_right() || is_walking_left()) stand();
 		}
 	});
 
-	function right() {
+	function walk_right() {
 		set_state('walking_right');
 		velocity.x = 0.3;
 	}
 
-	function left() {
+	function is_walking_right() {
+		return state == 'walking_right';
+	}
+
+	function walk_left() {
 		set_state('walking_left');
 		velocity.x = -0.3;
+	}
+
+	function is_walking_left() {
+		return state == 'walking_left';
 	}
 
 	function stand() {
@@ -48,9 +56,13 @@ var Player = function (gamejs) {
 	}
 
 	function jump() {
-		if(state != 'jumping') start_jump_position = position.y;
-		if(state != 'jumping' && state != 'falling') velocity.y = -0.8;
+		if(!is_jumping()) start_jump_position = position.y;
+		if(!is_jumping() && !is_fallling()) velocity.y = -0.8;
 		set_state('jumping');
+	}
+
+	function is_jumping() {
+		return state == 'jumping';
 	}
 
 	function duck() {
@@ -61,6 +73,14 @@ var Player = function (gamejs) {
 		set_state('attack', function(){ stand();});
 	}
 
+	function falling() {
+		set_state('falling');
+	}
+
+	function is_fallling() {
+		return state == 'falling';
+	}
+
 	function set_state(s, callback) {
 		if(state != s) {
 			player_animation.animation.start(s, callback);
@@ -68,8 +88,11 @@ var Player = function (gamejs) {
 		}
 	}
 
-	this.on_platform = function(platform_Y) {
-		position.y = platform_Y - current_frame_height();
+	this.on_platform = function(platformY) {
+		if(platformY) {
+			velocity.y = 0;
+			position.y = platformY - current_frame_height();
+		}
 	}
 
 	this.rect = function() {
@@ -90,12 +113,10 @@ var Player = function (gamejs) {
 		rect.y = position.y;
 		rect.width = current_frame_width();
 		rect.height = current_frame_height();
-		keep_limits();	
+		keep_limits();
 	}
 
 	function keep_limits() {
-		if(velocity.y > 0.8) velocity.y = 0.8;
-
 		if(position.x < 0) { 
 			position.x = 0;
 		}
@@ -111,11 +132,11 @@ var Player = function (gamejs) {
 		var y_limit = gamejs.display.getSurface().canvas.height - current_frame_height();
 		if(position.y > y_limit) {
 			position.y = y_limit;
-			if(state == 'falling') stand();
+			if(is_fallling()) stand();
 		}
 
-		if(state == 'jumping' && position.y < start_jump_position - jump_limit) {
-			set_state('falling');
+		if(is_jumping() && position.y < start_jump_position - jump_limit) {
+			falling();
 		}
 	}
 
