@@ -5,6 +5,8 @@ var Coin = function (gamejs, x, y) {
 	var coin_animation = new CoinAnimation(gamejs);
 	var enabled = true;
 
+	this.point = 30;
+	
 	this.collideRect = function(subjectRect) {
 		if(enabled && rect.collideRect(subjectRect)) {
 			velocity.y = -0.3;

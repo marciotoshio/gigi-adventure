@@ -43,7 +43,15 @@ gamejs.ready(function() {
 			coins[i].draw(display);
 		}
 		player.draw(display);
+
+		var scoreFont = new gamejs.font.Font('20px monospace');
+		var scoreLabelSurface = scoreFont.render('SCORE: ');
+		display.blit(scoreLabelSurface, [20,20]);
+
+		var playerScoreSurface = scoreFont.render(player.score());
+		display.blit(playerScoreSurface, [100,20]);
 	}
+
 
 	function check_platform_collision(subject) {
 		for(var i = 0; i < platforms.length; i++) {
@@ -57,7 +65,7 @@ gamejs.ready(function() {
 	function check_coin_collision(subject) {
 		for(var i = 0; i < coins.length; i++) {
 			if(coins[i].collideRect(subject.rect())) {
-				console.log('point!');
+				subject.point(coins[i].point);
 			}
 		}
 	}

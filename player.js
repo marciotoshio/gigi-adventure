@@ -7,6 +7,7 @@ var Player = function (gamejs) {
 	var jump_limit = 155;
 	var start_jump_position = 0;
 	var player_animation = new SamuraiAnimation(gamejs);
+	var points = 0;
 	
 	gamejs.onEvent(function(event) {
 		if(event.type == gamejs.event.KEY_DOWN) {
@@ -74,6 +75,12 @@ var Player = function (gamejs) {
 	this.rect = function() {
 		return rect;
 	}
+
+	this.point = function(point) {
+		points += point;
+	}
+
+	this.score = function() { return points; }
 
 	this.update = function(dt) {
 		player_animation.animation.update(dt);
