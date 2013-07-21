@@ -24,6 +24,20 @@ var BackgroundAnimation = function(gamejs) {
 	this.animation.start('scroll');
 }
 
+var Platforms = function(gamejs) {
+	return [new Platform(gamejs, 150, 500 , 150, 25),
+		new Platform(gamejs, 400, 400 , 150, 25),
+		new Platform(gamejs, 650, 400 , 150, 25),
+		new Platform(gamejs, 900, 400 , 150, 25),
+		new Platform(gamejs, 1150, 400 , 150, 25),
+		new Platform(gamejs, 1450, 400 , 150, 25),
+		new Platform(gamejs, 1750, 400 , 150, 25),
+		new Platform(gamejs, 2000, 400 , 150, 25),
+		new Platform(gamejs, 2350, 400 , 150, 25),
+		new Platform(gamejs, 2700, 400 , 150, 25),
+		new Platform(gamejs, 2900, 450 , 150, 25)];
+}
+
 var SamuraiAnimation = function(gamejs) {
 	this.sheetSpec = {map: [
 		//stand
@@ -71,5 +85,5 @@ var SamuraiAnimation = function(gamejs) {
 		'jumping': [16,18], 
 		'falling': [19,21],
 		'walking_right': [22,27]},  6);
-	this.animation.start('stand');
+	this.animation.start('walking_right');
 }
